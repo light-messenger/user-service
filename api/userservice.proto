@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package userservice;
+
+option go_package = "pkg/userservice";
+
+service UserService {
+    rpc Create(CreateRequest) returns (CreateResponse);
+    rpc Get(GetRequest) returns (GetResponse);
+}
+
+message CreateRequest {
+    string nickname = 1;
+    string password = 2;
+}
+
+message CreateResponse {
+    int64 id = 1;
+}
+
+message GetRequest {
+    int64 id = 1;
+}
+
+message GetResponse {
+    string nickname = 1;
+}
