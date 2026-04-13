@@ -3,7 +3,6 @@ package main
 import (
 	// "context"
 	"database/sql"
-	"log"
 	"net"
 
 	"google.golang.org/grpc"
@@ -14,12 +13,15 @@ import (
 	repository "github.com/light-messenger/user-service/internal/repository"
 	service "github.com/light-messenger/user-service/internal/service"
 	userService "github.com/light-messenger/user-service/pkg/userservice"
+	"github.com/sirupsen/logrus"
 )
 
 func main() {
 	db, err := sql.Open("sqlite", "users.db")
 	if err != nil {
-		log.Fatal(err)
+		logrus.
+			WithError(err).
+			Fatal("sql.Open fatal error")
 	}
 	defer db.Close()
 
@@ -34,10 +36,16 @@ func main() {
 	address := "localhost:6666"
 	listener, err := net.Listen("tcp", address)
 	if err != nil {
-		log.Fatalf("failed to listen %v", err)
+		logrus.
+			WithField("address", address).
+			WithError(err).
+			Fatal("net.Listen error")
 	}
-	log.Printf("gRPC server listening at %v", listener.Addr())
+
+	logrus.Infof("gRPC server listening at %v", listener.Addr())
 	if err := grpcServer.Serve(listener); err != nil {
-		log.Fatalf("failed to serve: %v", err)
+		logrus.
+			WithError(err).
+			Fatal("grpcServer.Serve error")
 	}
 }

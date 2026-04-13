@@ -19,6 +19,7 @@ require (
 
 require (
 	github.com/Masterminds/squirrel v1.5.4
+	github.com/sirupsen/logrus v1.9.4
 	golang.org/x/net v0.49.0 // indirect
 	golang.org/x/sys v0.42.0 // indirect
 	golang.org/x/text v0.33.0 // indirect
