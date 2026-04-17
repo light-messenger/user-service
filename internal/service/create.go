@@ -4,17 +4,26 @@ import (
 	"context"
 
 	"github.com/sirupsen/logrus"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 func (s *Service) Create(ctx context.Context, nickname string, password string) (int64, error) {
-	id, err := s.repository.Create(ctx, nickname, password)
+	hashPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
 		logrus.
 			WithContext(ctx).
-			WithFields(logrus.Fields{
-				"nickname": nickname,
-				"password": password,
-			}).
+			WithError(err).
+			Error("bcrypt.GenerateFromPassword error")
+
+		return 0, err
+	}
+
+	id, err := s.repository.Create(ctx, nickname, string(hashPassword))
+	if err != nil {
+		logrus.
+			WithContext(ctx).
+			WithField("nickname", nickname).
 			WithError(err).
 			Error("repository.Create error")
 
