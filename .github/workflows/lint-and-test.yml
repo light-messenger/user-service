@@ -10,8 +10,8 @@ env:
   GO_VERSION: "1.25.5"
 
 jobs:
-  test:
-    name: "Run tests"
+  test-go:
+    name: "Run tests Go"
     runs-on: ubuntu-latest
 
     steps:
@@ -23,8 +23,8 @@ jobs:
 
       - run: go test ./...
 
-  lint:
-    name: "Run go vet"
+  lint-go:
+    name: "Run lint Go"
     runs-on: ubuntu-latest
 
     steps:
@@ -35,3 +35,18 @@ jobs:
           go-version: ${{ env.GO_VERSION }}
 
       - run: go vet ./...
+
+  lint-proto:
+    name: "Run lint Proto"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: bufbuild/buf-setup-actions@v1
+        with:
+          version: latest 
+
+      - name: Check formatting
+        run: buf format --diff --exit-code
+
+      - uses: bufbuild/buf-lint-actions@v1

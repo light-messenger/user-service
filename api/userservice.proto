@@ -22,6 +22,4 @@ message GetRequest {
     int64 id = 1;
 }
 
-message GetResponse {
-    string nickname = 1;
-}
+
