@@ -12,7 +12,7 @@ func (h *Handler) Get(ctx context.Context, req *pb.GetRequest) (*pb.GetResponse,
 		return nil, errValidate
 	}
 
-	nickname, err := h.service.Get(ctx, req.GetId())
+	nickname, err := h.service.Get(ctx, req.GetId(), 0)
 	if err != nil {
 		return nil, err
 	}
