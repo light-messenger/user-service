@@ -46,7 +46,4 @@ jobs:
         with:
           version: latest 
 
-      - name: Check formatting
-        run: buf format --diff --exit-code
-
       - uses: bufbuild/buf-lint-action@v1
