@@ -10,7 +10,7 @@ service UserService {
 }
 
 message CreateRequest {
-    string nickname = 1;
+    string Nickname = 1;
     string password = 2;
 }
 

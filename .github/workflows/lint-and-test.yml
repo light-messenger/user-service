@@ -42,11 +42,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: bufbuild/buf-setup-actions@v1
+      - uses: bufbuild/buf-setup-action@v1
         with:
           version: latest 
 
       - name: Check formatting
         run: buf format --diff --exit-code
 
-      - uses: bufbuild/buf-lint-actions@v1
+      - uses: bufbuild/buf-lint-action@v1
