@@ -1,0 +1,49 @@
+name: "lint and test"
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    types: [ opened, synchronize, reopened ] 
+
+env:
+  GO_VERSION: "1.25.5"
+
+jobs:
+  test-go:
+    name: "Run tests Go"
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+
+      - run: go test ./...
+
+  lint-go:
+    name: "Run lint Go"
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+
+      - run: go vet ./...
+
+  lint-proto:
+    name: "Run lint Proto"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: bufbuild/buf-setup-action@v1
+        with:
+          version: latest 
+
+      - uses: bufbuild/buf-lint-action@v1
