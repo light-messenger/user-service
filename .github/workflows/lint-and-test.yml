@@ -2,7 +2,9 @@ name: "lint and test"
 
 on:
   push:
-  pull_request: 
+    branches: [ main ]
+  pull_request:
+    types: [ opened, synchronize, reopened ] 
 
 env:
   GO_VERSION: "1.25.5"
