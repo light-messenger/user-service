@@ -14,7 +14,8 @@ import (
 
 func TestCreate(t *testing.T) {
 	nickname := gofakeit.Name()
-	password := gofakeit.Password(true,
+	password := gofakeit.Password(
+		true,
 		true,
 		true,
 		true,
