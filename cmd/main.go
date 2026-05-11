@@ -2,12 +2,16 @@ package main
 
 import (
 	// "context"
-	"database/sql"
 	"net"
+	"os"
 
+	"github.com/jmoiron/sqlx"
+
+	"github.com/joho/godotenv"
+
+	_ "github.com/jackc/pgx/v5/stdlib"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
-	_ "modernc.org/sqlite"
 
 	handler "github.com/light-messenger/user-service/internal/handler"
 	repository "github.com/light-messenger/user-service/internal/repository"
@@ -17,7 +21,17 @@ import (
 )
 
 func main() {
-	db, err := sql.Open("sqlite", "users.db")
+	_ = godotenv.Load()
+
+	dsn := os.Getenv("USER_SERVICE_DSN")
+	if dsn == "" {
+		logrus.Fatal("USER_SERVICE_DSN is required")
+	}
+
+	db, err := sqlx.Open(
+		"pgx",
+		dsn,
+	)
 	if err != nil {
 		logrus.
 			WithError(err).

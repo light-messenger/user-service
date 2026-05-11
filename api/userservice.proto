@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package userservice;
 
+import "google/protobuf/timestamp.proto";
+
 option go_package = "pkg/userservice";
 
 service UserService {
@@ -18,10 +20,16 @@ message CreateResponse {
     int64 id = 1;
 }
 
+message User {
+    int64 id = 1;
+    string nickname = 2;
+    google.protobuf.Timestamp registered_at = 3;
+}
+
 message GetRequest {
     int64 id = 1;
 }
 
 message GetResponse {
-    string nickname = 1;
+    User user = 1;
 }

@@ -1,9 +1,9 @@
 package repository
 
 import (
-	"database/sql"
+	"github.com/jmoiron/sqlx"
 
-	_ "modernc.org/sqlite"
+	_ "github.com/jackc/pgx/v5/stdlib"
 )
 
 const (
@@ -11,10 +11,10 @@ const (
 )
 
 type Repository struct {
-	db *sql.DB
+	db *sqlx.DB
 }
 
-func New(db *sql.DB) *Repository {
+func New(db *sqlx.DB) *Repository {
 	return &Repository{
 		db: db,
 	}

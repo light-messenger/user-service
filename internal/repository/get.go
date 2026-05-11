@@ -4,24 +4,26 @@ import (
 	"context"
 
 	sq "github.com/Masterminds/squirrel"
+	"github.com/light-messenger/user-service/internal/model"
 )
 
-func (r *Repository) Get(ctx context.Context, id int64) (string, error) {
+func (r *Repository) Get(ctx context.Context, id int64) (*model.User, error) {
 	builder := sq.
-		Select("nickname").
+		Select("id", "nickname", "registered_at").
 		From(tableUsers).
-		Where(sq.Eq{"id": id})
+		Where(sq.Eq{"id": id}).
+		PlaceholderFormat(sq.Dollar)
 
 	query, args, err := builder.ToSql()
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
-	var nickname string
-	err = r.db.QueryRowContext(ctx, query, args...).Scan(&nickname)
+	var user model.User
+	err = r.db.GetContext(ctx, &user, query, args...)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
-	return nickname, nil
+	return &user, nil
 }

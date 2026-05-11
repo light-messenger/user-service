@@ -3,11 +3,12 @@ package service
 import (
 	"context"
 
+	"github.com/light-messenger/user-service/internal/model"
 	"github.com/sirupsen/logrus"
 )
 
-func (s *Service) Get(ctx context.Context, id int64) (string, error) {
-	nickname, err := s.repository.Get(ctx, id)
+func (s *Service) Get(ctx context.Context, id int64) (*model.User, error) {
+	user, err := s.repository.Get(ctx, id)
 	if err != nil {
 		logrus.
 			WithContext(ctx).
@@ -15,8 +16,8 @@ func (s *Service) Get(ctx context.Context, id int64) (string, error) {
 			WithError(err).
 			Error("repository.Get error")
 
-		return "", err
+		return nil, err
 	}
 
-	return nickname, nil
+	return user, nil
 }
