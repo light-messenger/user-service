@@ -9,6 +9,7 @@ import (
 
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/brianvoe/gofakeit/v6"
+	"github.com/jmoiron/sqlx"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -53,7 +54,7 @@ func TestCreate(t *testing.T) {
 				WillReturnResult(tc.result)
 
 			repository := Repository{
-				db: db,
+				db: sqlx.NewDb(db, "sqlmock"),
 			}
 
 			id, err := repository.Create(ctx, nickname, password)

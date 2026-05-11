@@ -13,6 +13,7 @@ import (
 	context "context"
 	reflect "reflect"
 
+	model "github.com/light-messenger/user-service/internal/model"
 	gomock "go.uber.org/mock/gomock"
 )
 
@@ -56,10 +57,10 @@ func (mr *MockServiceMockRecorder) Create(ctx, nickname, password any) *gomock.C
 }
 
 // Get mocks base method.
-func (m *MockService) Get(ctx context.Context, id int64) (string, error) {
+func (m *MockService) Get(ctx context.Context, id int64) (*model.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Get", ctx, id)
-	ret0, _ := ret[0].(string)
+	ret0, _ := ret[0].(*model.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

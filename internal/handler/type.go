@@ -3,6 +3,7 @@ package handler
 import (
 	"context"
 
+	"github.com/light-messenger/user-service/internal/model"
 	pb "github.com/light-messenger/user-service/pkg/userservice"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -26,5 +27,5 @@ func New(service Service) *Handler {
 
 type Service interface {
 	Create(ctx context.Context, nickname string, password string) (int64, error)
-	Get(ctx context.Context, id int64) (string, error)
+	Get(ctx context.Context, id int64) (*model.User, error)
 }
